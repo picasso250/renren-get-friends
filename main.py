@@ -64,8 +64,35 @@ ol = m.group(0)
 # print ol
 set_cache('ol', ol)
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 from pyquery import PyQuery as pq
 from lxml import etree
 import urllib
-d = pq(ol)
+d = pq(t)
 # print d
+li_list = d('#friendListCon > li')
+# li_list = ol.find('li')
+for li in li_list:
+    pass
+    # a_list = li.find('a')
+    # if a_list is not None:
+    #     for a in a_list:
+    #         print a.text
+    # print dir(li)
+    img = li.find('p').find('a').find('img')
+    avatar = img.attrib['src']
+    print 'avatar', avatar
+    # print li.find('p.avatar img')
+    dd_list = li.find('dd')
+    if dd_list is None:
+        continue
+    for dd in dd_list:
+        pass
+        if dd.text is not None:
+            school = dd.text.strip()
+            print 'school', school
+    # print dir(li)
