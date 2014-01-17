@@ -58,11 +58,11 @@ def set_cache(name, content):
 # set_cache('a', t)
 t = get_cache('a')
 # print t
-r = re.compile(r'<ol id="friendListCon">.+?</ol>', re.S)
-m = r.search(t)
-ol = m.group(0)
+# r = re.compile(r'<ol id="friendListCon">.+?</ol>', re.S)
+# m = r.search(t)
+# ol = m.group(0)
 # print ol
-set_cache('ol', ol)
+# set_cache('ol', ol)
 
 import sys
 reload(sys)
@@ -83,16 +83,19 @@ for li in li_list:
     #     for a in a_list:
     #         print a.text
     # print dir(li)
+    print '------------------'
     img = li.find('p').find('a').find('img')
     avatar = img.attrib['src']
     print 'avatar', avatar
-    # print li.find('p.avatar img')
-    dd_list = li.find('dd')
-    if dd_list is None:
-        continue
-    for dd in dd_list:
-        pass
-        if dd.text is not None:
-            school = dd.text.strip()
-            print 'school', school
-    # print dir(li)
+    a = li.find('div').find('dl').find('dd').find('a')
+    name = a.text
+    print 'name', name
+    url = a.attrib['href']
+    m = re.search('id=(\d+)', url)
+    uid = m.group(1)
+    print 'uid', uid
+    # todo get city or school
+    # todo page
+    # todo can next page?
+    # todo save to mysql
+
