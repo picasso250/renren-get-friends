@@ -21,7 +21,6 @@ import db
 # db.insert_on_duplicate('relation', {'s1': 1, 's2': 2})
 
 def process_content(content, master_uid):
-    pass
     info_list = parser.get_friend_list(content)
     # print info
     for info in info_list:
@@ -34,6 +33,7 @@ def process_content(content, master_uid):
 
 
 def fetch_person(uid):
+    db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
     # fetch first
     content = fetch.get_text('/GetFriendList.do', {'curpage': '0', 'id': str(uid)})
@@ -56,4 +56,18 @@ def fetch_person(uid):
         pass
 
 
-fetch_person('228417767')
+# fetch_person('228417767')
+
+db.insert_on_duplicate('student', {'uid': '228417767', 'has_visit': 0})
+
+while True:
+    uid = db.find_one_val('select uid from student where has_visit=0 limit 1')
+    if uid:
+        pass
+        print '--------------------',uid
+        # break
+        fetch_person(uid)
+    else:
+        break
+
+    pass

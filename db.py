@@ -1,15 +1,20 @@
 import MySQLdb
 
-# try:
-#     conn=MySQLdb.connect(host='localhost',user='root',passwd='',db='renren_data',port=3306)
-#     cur=conn.cursor()
-#     cur.execute('select * from test')
-#     a = cur.fetchmany()
-#     print a[0][0]
-#     cur.close()
-#     conn.close()
-# except MySQLdb.Error,e:
-#      print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+def find_one_val(sql, values=[]):
+    pass
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute(sql, values)
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        if row:
+            return row[0]
+        else:
+            return None
+    except MySQLdb.Error,e:
+         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 def get_conn():
     try:
