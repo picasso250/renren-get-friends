@@ -25,9 +25,9 @@ def get_friend_list(content):
         uid = m.group(1)
         print 'uid:', uid
         return {
-            avatar: avatar,
-            name: name,
-            uid: uid,
+            'avatar': avatar,
+            'name': name,
+            'uid': uid,
         }
         # todo get city or school
         # todo save to mysql

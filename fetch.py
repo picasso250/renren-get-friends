@@ -22,6 +22,7 @@ def get_text(url, data = {}):
     # http://friend.renren.com/GetFriendList.do?curpage=1&id=228417767
     data = urllib.urlencode(data)
     conn = get_renren_conn()
+    print url+'?'+data
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
     return response.read()
