@@ -26,12 +26,12 @@ def get_text(url, data = {}):
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
     content = response.read()
-    set_cache('a', content)
-    content = get_cache('a')
+    set_cache('cache', content)
+    content = get_cache('cache')
     return content
 
 def get_cache(name):
-    filename = '/tmp/'+name+'.cache'
+    filename = name+'.cache'
     if not os.path.exists(filename):
         print 'no file', filename
         return None
@@ -41,7 +41,7 @@ def get_cache(name):
     return c
 
 def set_cache(name, content):
-    filename = '/tmp/'+name+'.cache'
+    filename = name+'.cache'
     f = open(filename, 'w')
     c = f.write(content)
     f.close()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os, re
 import httplib, urllib
 
@@ -10,7 +12,14 @@ from lxml import etree
 import urllib
 from urlparse import urlparse
 
+def is_private(content):
+    pass
+    print (content.find(u'由于对方设置隐私保护，您没有权限查看此内容') != -1)
+    return content.find(u'由于对方设置隐私保护，您没有权限查看此内容') != -1
+
 def get_friend_list(content):
+    if is_private(content):
+        return []
     d = pq(content)
     li_list = d('#friendListCon > li')
     l = []
@@ -34,6 +43,8 @@ def get_friend_list(content):
     return l
 
 def get_page_count(content):
+    if is_private(content):
+        return -1
     d = pq(content)
     a_list = d('#topPage a')
     querys = [urlparse(a.attrib['href']).query for a in a_list]

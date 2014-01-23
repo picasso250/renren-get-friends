@@ -55,7 +55,7 @@ def fetch_person(uid):
     db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
 
-# fetch_person('228417767')
+# fetch_person('75118')
 
 db.insert_on_duplicate('student', {'uid': '228417767', 'has_visit': 0})
 
