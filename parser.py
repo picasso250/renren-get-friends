@@ -8,6 +8,7 @@ sys.setdefaultencoding('utf8')
 from pyquery import PyQuery as pq
 from lxml import etree
 import urllib
+from urlparse import urlparse
 
 def get_friend_list(content):
     pass
@@ -38,3 +39,12 @@ def get_friend_list(content):
         # todo can next page?
         # todo save to mysql
 
+def get_page_count(content):
+    d = pq(content)
+    a_list = d('#topPage a')
+    querys = [urlparse(a.attrib['href']).query for a in a_list]
+    l = []
+    for q in querys:
+        d = dict([x.split("=") for x in q.split("&")])
+        l.append(int(d['curpage']))
+    return max(l)
