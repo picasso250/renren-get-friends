@@ -33,7 +33,6 @@ def process_content(content, master_uid):
 
 
 def fetch_person(uid):
-    db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
     # fetch first
     content = fetch.get_text('/GetFriendList.do', {'curpage': '0', 'id': str(uid)})
@@ -54,6 +53,8 @@ def fetch_person(uid):
             process_content(content, uid)
             
         pass
+        
+    db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
 
 # fetch_person('228417767')
