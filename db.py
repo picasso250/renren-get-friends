@@ -30,7 +30,6 @@ def insert(form, row):
          print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 def insert_on_duplicate(form, row):
-    print row
     try:
         conn=get_conn()
         cur=conn.cursor()

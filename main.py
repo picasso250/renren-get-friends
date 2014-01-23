@@ -22,9 +22,11 @@ import db
 
 def process_content(content):
     pass
-    info = parser.get_friend_list(content)
+    info_list = parser.get_friend_list(content)
     # print info
-    db.insert_on_duplicate('student', info)
+    for info in info_list:
+        pass
+        db.insert_on_duplicate('student', info)
 
 def fetch_person(uid):
 
@@ -37,6 +39,7 @@ def fetch_person(uid):
 
     # get page
     count = parser.get_page_count(content)
+    # count = 0
     print 'total',count
     if count >= 1:
         # fetch every

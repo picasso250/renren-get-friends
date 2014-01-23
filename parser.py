@@ -13,6 +13,7 @@ from urlparse import urlparse
 def get_friend_list(content):
     d = pq(content)
     li_list = d('#friendListCon > li')
+    l = []
     for li in li_list:
         img = li.find('p').find('a').find('img')
         avatar = img.attrib['src']
@@ -24,13 +25,13 @@ def get_friend_list(content):
         m = re.search('id=(\d+)', url)
         uid = m.group(1)
         print 'uid:', uid
-        return {
+        l.append({
             'avatar': avatar,
             'name': name,
             'uid': uid,
-        }
+        })
         # todo get city or school
-        # todo save to mysql
+    return l
 
 def get_page_count(content):
     d = pq(content)
