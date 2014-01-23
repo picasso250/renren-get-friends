@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 
 import os, re
 import httplib, urllib
@@ -37,6 +37,12 @@ def fetch_person(uid):
     # fetch first
     content = fetch.get_text('/GetFriendList.do', {'curpage': '0', 'id': str(uid)})
     # print content
+    if parser.is_private(content):
+        db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1, 'is_private': 1})
+        return
+    else:
+        db.insert_on_duplicate('student', {'uid': uid, 'is_private': 0})
+
     process_content(content, uid)
 
     # get page
@@ -46,12 +52,8 @@ def fetch_person(uid):
     if count >= 1:
         # fetch every
         for i in xrange(1,count):
-            pass
             content = fetch.get_text('/GetFriendList.do', {'curpage': str(i), 'id': str(uid)})
             process_content(content, uid)
-            
-        pass
-
     db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
 
