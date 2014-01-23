@@ -25,7 +25,10 @@ def get_text(url, data = {}):
     print url+'?'+data
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
-    return response.read()
+    content = response.read()
+    set_cache('a', content)
+    content = get_cache('a')
+    return content
 
 def get_cache(name):
     filename = '/tmp/'+name+'.cache'

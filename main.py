@@ -36,8 +36,6 @@ def fetch_person(uid):
 
     # fetch first
     content = fetch.get_text('/GetFriendList.do', {'curpage': '0', 'id': str(uid)})
-    fetch.set_cache('a', content)
-    content = fetch.get_cache('a')
     # print content
     process_content(content, uid)
 
@@ -53,7 +51,7 @@ def fetch_person(uid):
             process_content(content, uid)
             
         pass
-        
+
     db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1})
 
 
