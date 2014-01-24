@@ -74,7 +74,7 @@ def get_info(content):
         if dt.text == '大学':
             uni, uni_year, college = [a.text for a in dd('a')]
         if dt.text == '高中':
-            high_scool, high_school_year, college = [a.text for a in dd('a')]
+            high_scool, high_school_year, _ = [a.text for a in dd('a')]
 
     is_in_love = d('.love-infobox p').text()
 
@@ -95,7 +95,6 @@ def get_info(content):
         'college': college,
         'high_scool': high_scool,
         'high_school_year': high_school_year,
-        'college': college,
         'is_in_love': is_in_love,
         'mobile': mobile,
         'msn': msn,
