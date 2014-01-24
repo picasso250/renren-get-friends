@@ -31,6 +31,19 @@ def get_text(url, data = {}):
     content = get_cache('cache')
     return content
 
+def get_url(host, url, data = {}):
+    # http://friend.renren.com/GetFriendList.do?curpage=1&id=228417767
+    data = urllib.urlencode(data)
+    conn = httplib.HTTPConnection(host)
+    print host+url+'?'+data
+    conn.request("GET", url+'?'+data, None, get_headers())
+    response = conn.getresponse()
+    # todo status not 200
+    content = response.read()
+    # set_cache('cache', content)
+    # content = get_cache('cache')
+    return content
+
 def get_cache(name):
     filename = name+'.cache'
     if not os.path.exists(filename):

@@ -24,7 +24,8 @@ def get_friend_list(content):
     for li in li_list:
         div = li.find('div')
         if div is None:
-            print pq(li).html()
+            # todo log it
+            print 'div is None'
             continue
         dl = div.find('dl')
         if dl is None:
