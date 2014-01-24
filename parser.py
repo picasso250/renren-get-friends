@@ -64,3 +64,40 @@ def get_page_count(content):
         d = dict([x.split("=") for x in q.split("&")])
         l.append(int(d['curpage']))
     return max(l)
+
+def get_info(content):
+    d = pq(content)
+    dl_list = d('#educationInfo dl')
+    for dl in dl_list:
+        dt = dl.find('dt')
+        dd = pq(dl)
+        if dt.text == '大学':
+            uni, uni_year, college = [a.text for a in dd('a')]
+        if dt.text == '高中':
+            high_scool, high_school_year, college = [a.text for a in dd('a')]
+
+    is_in_love = d('.love-infobox p').text()
+
+    dl_list = d('#contactInfo dl')
+    for dl in dl_list:
+        dt = dl.find('dt')
+        dd = pq(dl)
+        if dt.text == '手机':
+            mobile = dl.find('dd').text
+        if dt.text == 'MSN':
+            msn = dl.find('dd').text
+        if dt.text == '个人网站':
+            website = dd('dd a').text()
+
+    return {
+        'uni': uni,
+        'uni_year': uni_year,
+        'college': college,
+        'high_scool': high_scool,
+        'high_school_year': high_school_year,
+        'college': college,
+        'is_in_love': is_in_love,
+        'mobile': mobile,
+        'msn': msn,
+        'website': website
+    }
