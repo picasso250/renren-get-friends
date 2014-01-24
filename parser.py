@@ -72,9 +72,13 @@ def get_info(content):
         dt = dl.find('dt')
         dd = pq(dl)
         if dt.text == '大学':
-            uni, uni_year, college = [a.text for a in dd('a')]
+            uni, college_year, college = [a.text for a in dd('a')]
         if dt.text == '高中':
             high_scool, high_school_year, _ = [a.text for a in dd('a')]
+    m = re.search('^\d+', college_year)
+    college_year = m.group(0)
+    m = re.search('^\d+', high_school_year)
+    high_school_year = m.group(0)
 
     is_in_love = d('.love-infobox p').text()
 
@@ -91,8 +95,8 @@ def get_info(content):
 
     return {
         'uni': uni,
-        'uni_year': uni_year,
         'college': college,
+        'college_year': college_year,
         'high_scool': high_scool,
         'high_school_year': high_school_year,
         'is_in_love': is_in_love,
