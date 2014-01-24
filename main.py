@@ -38,6 +38,7 @@ def fetch_person(uid):
     content = fetch.get_text('/GetFriendList.do', {'curpage': '0', 'id': str(uid)})
     # print content
     if parser.is_private(content):
+        print u'由于对方设置隐私保护，您没有权限查看此内容'
         db.insert_on_duplicate('student', {'uid': uid, 'has_visit': 1, 'is_private': 1})
         return
     else:

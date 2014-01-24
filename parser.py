@@ -13,7 +13,7 @@ import urllib
 from urlparse import urlparse
 
 def is_private(content):
-    print u'由于对方设置隐私保护，您没有权限查看此内容'
+    print content
     return content.find(u'由于对方设置隐私保护，您没有权限查看此内容') != -1
 
 def get_friend_list(content):

@@ -39,7 +39,6 @@ def insert_on_duplicate(form, row):
         conn=get_conn()
         cur=conn.cursor()
         sql = 'insert into '+form+' ('+','.join(row.keys())+') values ('+','.join(['%s' for x in row])+') ON DUPLICATE KEY UPDATE '+','.join([x+'=%s' for x in row.keys()])
-        print sql
         cur.execute(sql, row.values()+row.values())
         conn.commit()
         cur.close()
