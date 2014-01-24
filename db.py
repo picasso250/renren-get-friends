@@ -28,9 +28,11 @@ def insert(form, row):
         cur=conn.cursor()
         sql = 'insert into '+form+' ('+','.join(row.keys())+') values ('+','.join(['%s' for x in row])+')'
         cur.execute(sql, row.values())
+        insert_id = conn.insert_id()
         conn.commit()
         cur.close()
         conn.close()
+        return insert_id
     except MySQLdb.Error,e:
          print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
@@ -40,9 +42,10 @@ def insert_on_duplicate(form, row):
         cur=conn.cursor()
         sql = 'insert into '+form+' ('+','.join(row.keys())+') values ('+','.join(['%s' for x in row])+') ON DUPLICATE KEY UPDATE '+','.join([x+'=%s' for x in row.keys()])
         cur.execute(sql, row.values()+row.values())
+        insert_id = conn.insert_id()
         conn.commit()
         cur.close()
         conn.close()
+        return insert_id
     except MySQLdb.Error,e:
          print "Mysql Error %d: %s" % (e.args[0], e.args[1])
-
