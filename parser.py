@@ -73,19 +73,37 @@ def get_info(content):
     data = {}
     d = pq(content)
     dl_list = d('#educationInfo dl')
+    school_dict = {}
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
-        if dt.text == '大学':
-            data['uni'], college_year, data['college'] = [a.text for a in dd('a')]
-            data['college_year'] = extract_digits(college_year)
-        if dt.text == '高中':
-            data['high_scool'], high_school_year, _ = [a.text for a in dd('a')]
-            data['high_school_year'] = extract_digits(high_school_year)
+        school_dict[dt.text] = ' - '.join([a.text for a in dd('a')])
 
     data['is_in_love'] = d('.love-infobox p').text()
 
     dl_list = d('#contactInfo dl')
+    for dl in dl_list:
+        dt = dl.find('dt')
+        dd = pq(dl)
+        if dt.text == '手机':
+            data['mobile'] = dl.find('dd').text
+        if dt.text == 'MSN':
+            data['msn'] = dl.find('dd').text
+        if dt.text == '个人网站':
+            data['website'] = dd('dd a').text()
+
+    dl_list = d('#workInfo dl')
+    for dl in dl_list:
+        dt = dl.find('dt')
+        dd = pq(dl)
+        if dt.text == '手机':
+            data['mobile'] = dl.find('dd').text
+        if dt.text == 'MSN':
+            data['msn'] = dl.find('dd').text
+        if dt.text == '个人网站':
+            data['website'] = dd('dd a').text()
+
+    dl_list = d('#basicInfo dl')
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
