@@ -13,7 +13,6 @@ import urllib
 from urlparse import urlparse
 
 def is_private(content):
-    print content
     return content.find(u'由于对方设置隐私保护，您没有权限查看此内容') != -1
 
 def get_friend_list(content):
@@ -23,21 +22,33 @@ def get_friend_list(content):
     li_list = d('#friendListCon > li')
     l = []
     for li in li_list:
-        img = li.find('p').find('a').find('img')
-        avatar = img.attrib['src']
-        print 'avatar:', avatar
-        a = li.find('div').find('dl').find('dd').find('a')
+        div = li.find('div')
+        if div is None:
+            print pq(li).html()
+            continue
+        dl = div.find('dl')
+        if dl is None:
+            print 'dl is None'
+        a = dl.find('dd').find('a')
         name = a.text
-        print 'name:', name
         url = a.attrib['href']
         m = re.search('id=(\d+)', url)
         uid = m.group(1)
-        print 'uid:', uid
-        l.append({
-            'avatar': avatar,
+        print 'uid:', uid,
+        print 'name:', name
+        data = {
             'name': name,
             'uid': uid,
-        })
+        }
+        img = li.find('p').find('a').find('img')
+        if img is not None:
+            pass
+            avatar = img.attrib['src']
+            data['avatar'] = avatar
+        else:
+            print 'error img'
+
+        l.append(data)
         # todo get city or school
     return l
 

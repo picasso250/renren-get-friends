@@ -11,7 +11,7 @@ def get_headers(extra = {}):
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'User-Agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/28.0.1500.71 Chrome/28.0.1500.71 Safari/537.36',
         'Referer': 'http://friend.renren.com/GetFriendList.do?curpage=1&id=228417767',
-        'Cookie': 'anonymid=hpxwsygtz6u2gu; _r01_=1; JSESSIONID=abcdgJ9l1JeQqhUbROsnu; ick_login=f47bf458-d027-499b-a01a-3ffed2a24688; XNESSESSIONID=af90d1e7d217; ick=21fc8c10-f211-40d5-a43d-db1c536d5a0a; _de=6B3F68A3B98BADDE348942222129E7F8FA025FA9A94C8260; depovince=GW; jebecookies=fcf969e9-45a4-4dee-82a8-c2f7c105115a|||||; p=21bb50850754cafa0695f6875b12b7ec7; ap=228417767; t=a940bff63e77655037972b1ab99238987; societyguester=a940bff63e77655037972b1ab99238987; id=228417767; xnsid=412ce95b; loginfrom=null; feedType=228417767_hot',
+        'Cookie': 'anonymid=hqjjjuvj-kvzho9; _r01_=1; JSESSIONID=abc-HF0haDFRBflfsMGou; jebe_key=d7fa9251-97f7-4a95-a5d4-15ffdfa34a2b%7Cee432b942a06fe5bbfda0828a72706ec%7C1389968865431%7C1; XNESSESSIONID=35bda184f953; depovince=GW; jebecookies=abffd128-60eb-432b-9964-0125d1bad618|||||; ick_login=2bc9e132-b666-4b4f-b245-47598cbb0fb6; _de=6B3F68A3B98BADDE348942222129E7F8FA025FA9A94C8260; p=21bb50850754cafa0695f6875b12b7ec7; ap=228417767; t=0462ee96e3c7b4085537c221eb1bbcf47; societyguester=0462ee96e3c7b4085537c221eb1bbcf47; id=228417767; xnsid=3e63f473; loginfrom=null; feedType=228417767_hot',
         'Accept-Language': 'zh-CN,zh;q=0.8'
     }
     for key in extra:
@@ -25,6 +25,7 @@ def get_text(url, data = {}):
     print url+'?'+data
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
+    # todo status not 200
     content = response.read()
     set_cache('cache', content)
     content = get_cache('cache')
