@@ -65,42 +65,35 @@ def get_page_count(content):
         l.append(int(d['curpage']))
     return max(l)
 
+def extract_digits(string):
+    m = re.search('^\d+', string)
+    return m.group(0)
+
 def get_info(content):
+    data = {}
     d = pq(content)
     dl_list = d('#educationInfo dl')
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
         if dt.text == '大学':
-            uni, college_year, college = [a.text for a in dd('a')]
+            data['uni'], college_year, data['college'] = [a.text for a in dd('a')]
+            data['college_year'] = extract_digits(college_year)
         if dt.text == '高中':
-            high_scool, high_school_year, _ = [a.text for a in dd('a')]
-    m = re.search('^\d+', college_year)
-    college_year = m.group(0)
-    m = re.search('^\d+', high_school_year)
-    high_school_year = m.group(0)
+            data['high_scool'], high_school_year, _ = [a.text for a in dd('a')]
+            data['high_school_year'] = extract_digits(high_school_year)
 
-    is_in_love = d('.love-infobox p').text()
+    data['is_in_love'] = d('.love-infobox p').text()
 
     dl_list = d('#contactInfo dl')
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
         if dt.text == '手机':
-            mobile = dl.find('dd').text
+            data['mobile'] = dl.find('dd').text
         if dt.text == 'MSN':
-            msn = dl.find('dd').text
+            data['msn'] = dl.find('dd').text
         if dt.text == '个人网站':
-            website = dd('dd a').text()
+            data['website'] = dd('dd a').text()
 
-    return {
-        'uni': uni,
-        'college': college,
-        'college_year': college_year,
-        'high_scool': high_scool,
-        'high_school_year': high_school_year,
-        'is_in_love': is_in_love,
-        'mobile': mobile,
-        'msn': msn,
-        'website': website
-    }
+    return data
