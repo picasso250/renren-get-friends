@@ -22,16 +22,17 @@ def get_info(uid):
     return info
 
 def save_school_info(uid, info_list):
+    print 'save_school_info'
     for info in info_list:
-        pass
+        print json.dumps(info, encoding="UTF-8", ensure_ascii=False)
         info['uid'] = uid
-        info['has_visit_info'] = 1
         db.insert_on_duplicate('school', info)
 
 def save_work_info(uid, info_list):
+    print 'save_work_info'
     for info in info_list:
+        print json.dumps(info, encoding="UTF-8", ensure_ascii=False)
         info['uid'] = uid
-        info['has_visit_info'] = 1
         db.insert_on_duplicate('company', info)
 
 def save_basic_info(uid, info):
@@ -45,19 +46,19 @@ def save_info(uid, info):
         del info['educationInfo']
 
     if info.has_key('workInfo'):
-        save_school_info(uid, info['workInfo'])
+        save_work_info(uid, info['workInfo'])
         del info['workInfo']
 
     save_basic_info(uid, info)
 
 
 uid = '21441'
-print 'get_info'
-info = get_info(uid)
-print 'info', json.dumps(info, encoding="UTF-8", ensure_ascii=False)
+# print 'get_info'
+# info = get_info(uid)
+# print 'info', json.dumps(info, encoding="UTF-8", ensure_ascii=False)
 
 
-while False:
+while True:
     uid = db.find_one_val('select uid from student where has_visit_info=0 limit 1')
     print uid
     if uid:
@@ -67,5 +68,3 @@ while False:
         break
     else:
         break
-
-    pass

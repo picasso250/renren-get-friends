@@ -108,7 +108,7 @@ def get_info(content):
         dt = dl.find('dt')
         dd = pq(dl)
         if dt.text == '公司':
-            workInfo['company'] = dd('dd').text()
+            workInfo['name'] = dd('dd').text()
         if dt.text == '时间':
             workInfo['time_range'] = dd('dd').text()
             workInfo_list.append(workInfo)

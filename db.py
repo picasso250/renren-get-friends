@@ -34,7 +34,8 @@ def insert(form, row):
         conn.close()
         return insert_id
     except MySQLdb.Error,e:
-         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        print sql
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 def insert_on_duplicate(form, row):
     try:
@@ -48,4 +49,5 @@ def insert_on_duplicate(form, row):
         conn.close()
         return insert_id
     except MySQLdb.Error,e:
-         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        print sql
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
