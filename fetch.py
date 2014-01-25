@@ -25,7 +25,7 @@ def get_text(url, data = {}):
     print url+'?'+data
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
-    # todo status not 200
+    print response.status
     content = response.read()
     set_cache('cache', content)
     content = get_cache('cache')
@@ -39,9 +39,9 @@ def get_url(host, url, data = {}):
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
     content = response.read()
+    print response.status
     set_cache('get_url', content)
     content = get_cache('get_url')
-    # todo status not 200
     return content
 
 def get_cache(name):

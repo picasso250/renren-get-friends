@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import os, re
 import httplib, urllib
 import fetch
@@ -35,6 +34,11 @@ def save_work_info(uid, info_list):
         info['uid'] = uid
         db.insert_on_duplicate('company', info)
 
+def save_friends_info(uid, info_list):
+    print 'save_friends_info'
+    for info in info_list:
+        db.insert_on_duplicate('student', info)
+
 def save_basic_info(uid, info):
     info['uid'] = uid
     info['has_visit_info'] = 1
@@ -49,6 +53,10 @@ def save_info(uid, info):
         save_work_info(uid, info['workInfo'])
         del info['workInfo']
 
+    if info.has_key('frd_list'):
+        save_friends_info(uid, info['frd_list'])
+        del info['frd_list']
+
     save_basic_info(uid, info)
 
 
@@ -60,10 +68,12 @@ def save_info(uid, info):
 
 while True:
     uid = db.find_one_val('select uid from student where has_visit_info=0 limit 1')
-    print uid
     if uid:
         print '--------------------',uid
         info = get_info(uid)
+        if info == False:
+            print 'error'
+            break
         print json.dumps(info, encoding="UTF-8", ensure_ascii=False)
         save_info(uid, info)
         # break
