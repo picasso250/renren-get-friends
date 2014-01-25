@@ -78,11 +78,16 @@ def get_info(content):
     data = {}
     d = pq(content)
     dl_list = d('#educationInfo dl')
-    school_dict = {}
+    print 'educationInfo'
+    educationInfo = []
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
-        school_dict[dt.text] = ' - '.join([a.text for a in dd('a')])
+        educationInfo.append({
+            'type': dt.text,
+            'info': ' - '.join([a.text for a in dd('a')])
+            })
+    print json.dumps(educationInfo, encoding="UTF-8", ensure_ascii=False)
 
     data['is_in_love'] = d('.love-infobox p').text()
 
@@ -121,6 +126,5 @@ def get_info(content):
         dd = pq(dl)
         basicInfo[dt.text] = dd('dd').text()
     print json.dumps(basicInfo, encoding="UTF-8", ensure_ascii=False)
-
 
     return data

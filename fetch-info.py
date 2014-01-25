@@ -23,6 +23,10 @@ def get_info(uid):
     print
     return info
 
+def save_school_info(uid, info):
+    info['uid'] = uid
+    db.insert_on_duplicate('school', info)
+    pass
 def save_info(uid, info):
 
     # uni
@@ -48,9 +52,11 @@ def save_info(uid, info):
 
     db.insert_on_duplicate('student', info)
 
-# uid = '146539724'
+uid = '21441'
+info = get_info(uid)
 
-while True:
+
+while False:
     uid = db.find_one_val('select uid from student where has_visit_info=0 limit 1')
     print uid
     if uid:
