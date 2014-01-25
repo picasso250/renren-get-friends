@@ -78,7 +78,6 @@ def get_info(content):
     data = {}
     d = pq(content)
     dl_list = d('#educationInfo dl')
-    print 'educationInfo'
     educationInfo = []
     for dl in dl_list:
         dt = dl.find('dt')
@@ -87,7 +86,7 @@ def get_info(content):
             'type': dt.text,
             'info': ' - '.join([a.text for a in dd('a')])
             })
-    print json.dumps(educationInfo, encoding="UTF-8", ensure_ascii=False)
+    data['educationInfo'] = educationInfo
 
     data['is_in_love'] = d('.love-infobox p').text()
 
@@ -105,26 +104,29 @@ def get_info(content):
     dl_list = d('#workInfo dl')
     workInfo = {}
     workInfo_list = []
-    print 'workInfo'
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
         if dt.text == '公司':
             workInfo['company'] = dd('dd').text()
         if dt.text == '时间':
-            workInfo['time'] = dd('dd').text()
+            workInfo['time_range'] = dd('dd').text()
             workInfo_list.append(workInfo)
             workInfo = {}
-    print json.dumps(workInfo_list, encoding="UTF-8", ensure_ascii=False)
+    data['workInfo'] = workInfo_list
 
 
     dl_list = d('#basicInfo dl')
-    print 'basicInfo'
-    basicInfo = {}
+    field_map = {
+        '生日': 'birthday',
+        '家乡': 'hometown',
+        '性别': 'gender',
+    }
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
-        basicInfo[dt.text] = dd('dd').text()
-    print json.dumps(basicInfo, encoding="UTF-8", ensure_ascii=False)
+        if not field_map.has_key(dt.text.encode('utf8')):
+            print 'no key', dt.text
+        data[field_map.get(dt.text.encode('utf8'))] = dd('dd').text()
 
     return data
