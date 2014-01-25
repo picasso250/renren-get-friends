@@ -2,6 +2,7 @@
 
 import os, re
 import httplib, urllib
+import json
 
 import sys
 reload(sys)
@@ -97,25 +98,29 @@ def get_info(content):
             data['website'] = dd('dd a').text()
 
     dl_list = d('#workInfo dl')
+    workInfo = {}
+    workInfo_list = []
+    print 'workInfo'
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
-        if dt.text == '手机':
-            data['mobile'] = dl.find('dd').text
-        if dt.text == 'MSN':
-            data['msn'] = dl.find('dd').text
-        if dt.text == '个人网站':
-            data['website'] = dd('dd a').text()
+        if dt.text == '公司':
+            workInfo['company'] = dd('dd').text()
+        if dt.text == '时间':
+            workInfo['time'] = dd('dd').text()
+            workInfo_list.append(workInfo)
+            workInfo = {}
+    print json.dumps(workInfo_list, encoding="UTF-8", ensure_ascii=False)
+
 
     dl_list = d('#basicInfo dl')
+    print 'basicInfo'
+    basicInfo = {}
     for dl in dl_list:
         dt = dl.find('dt')
         dd = pq(dl)
-        if dt.text == '手机':
-            data['mobile'] = dl.find('dd').text
-        if dt.text == 'MSN':
-            data['msn'] = dl.find('dd').text
-        if dt.text == '个人网站':
-            data['website'] = dd('dd a').text()
+        basicInfo[dt.text] = dd('dd').text()
+    print json.dumps(basicInfo, encoding="UTF-8", ensure_ascii=False)
+
 
     return data
