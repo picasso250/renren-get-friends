@@ -63,6 +63,10 @@ def get_page_count(content):
     for q in querys:
         d = dict([x.split("=") for x in q.split("&")])
         l.append(int(d['curpage']))
+    if len(l) == 0:
+        print content
+        print 'err: l is 0'
+        # todo log
     return max(l)
 
 def extract_digits(string):
