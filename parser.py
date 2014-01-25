@@ -66,7 +66,7 @@ def get_page_count(content):
         l.append(int(d['curpage']))
     if len(l) == 0:
         print content
-        print 'err: l is 0'
+        print 'err: l is empty'
         # todo log
     return max(l)
 
@@ -75,8 +75,40 @@ def extract_digits(string):
     return m.group(0)
 
 def get_info(content):
-    data = {}
+    # todo captcha
+    if content.find(u'只公开了一部分信息') != -1:
+        print '只公开了一部分信息'
+        return {'is_private': 1}
+
     d = pq(content)
+    captcha_input = d('input[name=icode]')
+    if len(captcha_input) != 0:
+        print 'captcha'
+        return False
+
+    data = {}
+    frd = d('#allFrdGallery')
+    if len(frd) != 0:
+        print 'allFrdGallery'
+        data['is_private'] = 1
+        m = re.search(r'\d+', frd.find('h3').text())
+        data['friends_count'] = m.group(0)
+        li_list = frd.find('ul').find('li')
+        frd_list = []
+        for li in li_list:
+            dd = pq(li)
+            m = re.search(r'id=(\d+)', dd('.avatar').attr('href'))
+            uid = m.group(1)
+            name = dd('.name').text()
+            info = dd('.network').text()
+            frd_list.append({
+                'uid': uid,
+                'name': name,
+                'public_info': info
+                })
+        data['frd_list'] = frd_list
+        return data
+
     dl_list = d('#educationInfo dl')
     educationInfo = []
     for dl in dl_list:
