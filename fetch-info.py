@@ -52,7 +52,7 @@ def save_info(uid, info):
     save_basic_info(uid, info)
 
 
-uid = '21441'
+# uid = '21441'
 # print 'get_info'
 # info = get_info(uid)
 # print 'info', json.dumps(info, encoding="UTF-8", ensure_ascii=False)
@@ -64,7 +64,8 @@ while True:
     if uid:
         print '--------------------',uid
         info = get_info(uid)
+        print json.dumps(info, encoding="UTF-8", ensure_ascii=False)
         save_info(uid, info)
-        break
+        # break
     else:
         break

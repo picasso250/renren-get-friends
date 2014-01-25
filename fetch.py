@@ -38,10 +38,10 @@ def get_url(host, url, data = {}):
     print host+url+'?'+data
     conn.request("GET", url+'?'+data, None, get_headers())
     response = conn.getresponse()
-    # todo status not 200
     content = response.read()
-    # set_cache('cache', content)
-    # content = get_cache('cache')
+    set_cache('get_url', content)
+    content = get_cache('get_url')
+    # todo status not 200
     return content
 
 def get_cache(name):

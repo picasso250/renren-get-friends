@@ -86,7 +86,9 @@ def get_info(content):
             'type': dt.text,
             'info': ' - '.join([a.text for a in dd('a')])
             })
-    data['educationInfo'] = educationInfo
+    if len(educationInfo) > 0:
+        pass
+        data['educationInfo'] = educationInfo
 
     data['is_in_love'] = d('.love-infobox p').text()
 
@@ -113,7 +115,9 @@ def get_info(content):
             workInfo['time_range'] = dd('dd').text()
             workInfo_list.append(workInfo)
             workInfo = {}
-    data['workInfo'] = workInfo_list
+    if len(workInfo_list) > 0:
+        pass
+        data['workInfo'] = workInfo_list
 
 
     dl_list = d('#basicInfo dl')
