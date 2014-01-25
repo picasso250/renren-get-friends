@@ -38,6 +38,7 @@ def save_friends_info(uid, info_list):
     print 'save_friends_info'
     for info in info_list:
         db.insert_on_duplicate('student', info)
+        db.insert_on_duplicate('relation', {'s1': uid, 's2': str(info['uid'])})
 
 def save_basic_info(uid, info):
     info['uid'] = uid
