@@ -21,13 +21,15 @@ def get_info(uid):
     info = parser.get_info(content)
     return info
 
-def save_school_info(uid, info):
-    info['uid'] = uid
-    info['has_visit_info'] = 1
-    db.insert_on_duplicate('school', info)
+def save_school_info(uid, info_list):
+    for info in info_list:
+        pass
+        info['uid'] = uid
+        info['has_visit_info'] = 1
+        db.insert_on_duplicate('school', info)
 
 def save_work_info(uid, info_list):
-    for x in info_list:
+    for info in info_list:
         info['uid'] = uid
         info['has_visit_info'] = 1
         db.insert_on_duplicate('company', info)
@@ -36,6 +38,18 @@ def save_basic_info(uid, info):
     info['uid'] = uid
     info['has_visit_info'] = 1
     db.insert_on_duplicate('student', info)
+
+def save_info(uid, info):
+    if info.has_key('educationInfo'):
+        save_school_info(uid, info['educationInfo'])
+        del info['educationInfo']
+
+    if info.has_key('workInfo'):
+        save_school_info(uid, info['workInfo'])
+        del info['workInfo']
+
+    save_basic_info(uid, info)
+
 
 uid = '21441'
 print 'get_info'
@@ -50,7 +64,7 @@ while False:
         print '--------------------',uid
         info = get_info(uid)
         save_info(uid, info)
-        # break
+        break
     else:
         break
 
