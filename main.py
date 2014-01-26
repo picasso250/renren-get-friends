@@ -65,11 +65,9 @@ db.insert_on_duplicate('student', {'uid': '228417767', 'has_visit': 0})
 while True:
     uid = db.find_one_val('select uid from student where has_visit=0 limit 1')
     if uid:
-        pass
         print '--------------------',uid
         # break
         fetch_person(uid)
     else:
         break
 
-    pass

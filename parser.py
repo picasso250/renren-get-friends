@@ -59,13 +59,15 @@ def get_page_count(content):
         return -1
     d = pq(content)
     a_list = d('#topPage a')
+    print len(a_list)
+    if len(a_list) == 0:
+        return 0
     querys = [urlparse(a.attrib['href']).query for a in a_list]
     l = []
     for q in querys:
         d = dict([x.split("=") for x in q.split("&")])
         l.append(int(d['curpage']))
     if len(l) == 0:
-        print content
         print 'err: l is empty'
         # todo log
     return max(l)
@@ -75,18 +77,17 @@ def extract_digits(string):
     return m.group(0)
 
 def get_info(content):
-    # todo captcha
     if content.find(u'只公开了一部分信息') != -1:
         print '只公开了一部分信息'
         return {'is_private': 1}
 
-    d = pq(content)
-    captcha_input = d('input[name=icode]')
-    if len(captcha_input) != 0:
+    if content.find(u'The URL has moved') != -1:
         print 'captcha'
         return False
 
+    d = pq(content)
     data = {}
+    # todo frd count
     frd = d('#allFrdGallery')
     if len(frd) != 0:
         print 'allFrdGallery'
