@@ -14,13 +14,17 @@ print images
 def fetch_save_picture(url):
     o = urlparse(url)
     path = o.path
+    fpath = re.sub('^/', '', path)
+    fpath = re.sub('/', '-', fpath)
+    save_path = 'images/'+fpath
+    if os.path.exists(save_path):
+        print save_path, 'exists'
+        return
     content = fetch.get_url(o.hostname, path)
     # ff = open('get_url.cache', 'r')
     # content = ff.read()
     # ff.close()
-    path = re.sub('^/', '', path)
-    path = re.sub('/', '-', path)
-    f = open('images/'+path, 'w');
+    f = open(save_path, 'w');
     f.write(content);
     f.close()
 
