@@ -31,7 +31,7 @@ def get_text(url, data = {}):
     content = get_cache('cache')
     return content
 
-def get_url(host, url, data = {}):
+def get_url(host, url, data = {}, encode = None):
     # http://friend.renren.com/GetFriendList.do?curpage=1&id=228417767
     data = urllib.urlencode(data)
     conn = httplib.HTTPConnection(host)
@@ -40,6 +40,8 @@ def get_url(host, url, data = {}):
     response = conn.getresponse()
     content = response.read()
     print response.status
+    if encode is not None:
+        content = content.decode(encode).encode('utf-8')
     set_cache('get_url', content)
     content = get_cache('get_url')
     return content
@@ -59,3 +61,7 @@ def set_cache(name, content):
     f = open(filename, 'w')
     c = f.write(content)
     f.close()
+
+if __name__ == "__main__":
+    content = get_url('bbs.hupu.com', '/7349086.html', {}, 'gbk')
+    print content
