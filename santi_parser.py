@@ -59,14 +59,17 @@ class SantiParser(HTMLParser):
 
 def get_scene_list(content):
     ret = []
+    i = 1
     reg = re.compile(r'<td>.+?</td>', re.DOTALL)
     for m in reg.finditer(content):
         html = m.group(0)
         s = SantiParser()
         s.feed(html)
         for x in s.get_scene_list():
+            x['act'] = i
             ret.append(x)
         # print 'html', html
+        i += 1
     for x in ret:
         print '----------------------------'
         print x['img']
